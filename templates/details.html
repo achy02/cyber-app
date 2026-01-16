@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classified Intel - Security Protocols</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>⚠️ Classified Security Concepts</h1>
+            <p>Authorized Personnel Only</p>
+        </header>
+
+        <section class="intel-grid">
+            {% for item in concepts %}
+            <div class="card intel-item">
+                <span class="intel-title">{{ item.title }}</span>
+                <p>{{ item.desc }}</p>
+            </div>
+            {% endfor %}
+        </section>
+
+        <div class="timestamp">
+            Log Timestamp: {{ time }}
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/" class="btn btn-secondary">&larr; Return to Dashboard</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>CONFIDENTIAL | DO NOT DISTRIBUTE</p>
+    </footer>
+</body>
+
+</html>

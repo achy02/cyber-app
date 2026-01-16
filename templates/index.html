@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Operations Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Global Security Operations Center</h1>
+            <p>System Status: <span style="color: var(--accent-green); font-weight: bold;">ONLINE</span> | Protection:
+                <strong>Docker Containerized</strong></p>
+        </header>
+
+        <section class="status-panel">
+            <div class="card">
+                <h2>Threat Assessment</h2>
+                <div class="threat-level {{ threat_class }}">
+                    <span>LEVEL: {{ threat_level }}</span>
+                    <span>🛑</span>
+                </div>
+                <p style="margin-top: 1rem;">{{ threat_msg }}</p>
+            </div>
+
+            <div class="card">
+                <h2>System Health</h2>
+                <p><strong>Uptime:</strong> 99.98%</p>
+                <p><strong>Active Nodes:</strong> 4</p>
+                <p><strong>Encryption:</strong> AES-256</p>
+            </div>
+        </section>
+
+        <div style="text-align: center;">
+            <a href="/details" class="btn">View Intelligent Protocols &rarr;</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>DevOps Assignment 2026 - Secure Build | <span style="color: var(--text-secondary);">v3.0.1 (Stable)</span>
+        </p>
+    </footer>
+</body>
+
+</html>
