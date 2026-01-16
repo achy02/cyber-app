@@ -17,15 +17,9 @@ pipeline {
             steps {
                 script {
                     echo "Running Trivy Security Scan on Terraform..."
-                    // In a real Jenkins env, we might use a plugin or docker run
-                    // Here we simulate running trivy using docker agent or command
-                    // This command matches the requirement to fail on failure or show warnings
-                    
-                    // Note: Since we are running Jenkins in Docker, we need to ensure it can run docker commands 
-                    // or we assume trivy is installed. For this assignment simulation:
-                    
-                    sh "ls -R" // DEBUG: List all files to see structure
-                    sh "docker run --rm -v \$(pwd):/app -w /app ${TRIVY_IMAGE} config ."
+                    // FIX: Run Trivy directly (installed in image) instead of using Docker-in-Docker
+                    // This avoids volume mounting issues.
+                    sh "trivy config ."
                 }
             }
             post {
