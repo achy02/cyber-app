@@ -15,7 +15,9 @@
             <p>Authorized Personnel Only</p>
         </header>
 
-        <section class="intel-grid">
+        <input type="text" id="searchBox" class="search-input" placeholder="🔍 Search security protocols...">
+
+        <section class="intel-grid" id="intelGrid">
             {% for item in concepts %}
             <div class="card intel-item">
                 <span class="intel-title">{{ item.title }}</span>
@@ -36,6 +38,26 @@
     <footer>
         <p>CONFIDENTIAL | DO NOT DISTRIBUTE</p>
     </footer>
+
+    <script>
+        const searchBox = document.getElementById('searchBox');
+        const items = document.querySelectorAll('.intel-item');
+
+        searchBox.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+
+            items.forEach(item => {
+                const title = item.querySelector('.intel-title').textContent.toLowerCase();
+                const desc = item.querySelector('p').textContent.toLowerCase();
+
+                if (title.includes(term) || desc.includes(term)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

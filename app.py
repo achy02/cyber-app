@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 from datetime import datetime
 
 import random
@@ -30,6 +30,41 @@ def details():
         {"title": "SQL Injection", "desc": "Malicious SQL statements are inserted into an entry field for execution."}
     ]
     return render_template('details.html', concepts=concepts, time=datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC"))
+
+# --- API Endpoints for Dynamic Features ---
+
+@app.route('/api/threat-level')
+def api_threat_level():
+    threat_level, threat_class, threat_msg = get_threat_level()
+    return jsonify({
+        "level": threat_level,
+        "class": threat_class,
+        "msg": threat_msg,
+        "timestamp": datetime.now().strftime("%H:%M:%S")
+    })
+
+@app.route('/api/activity-log')
+def api_activity_log():
+    # Simulate fetching logs from a database or SIEM
+    actions = ["Login Attempt", "File Access", "Port Scan", "Firewall Block", "User Logout", "Admin Access"]
+    users = ["admin", "system", "unknown", "user_101", "guest"]
+    statuses = ["Success", "Failed", "Blocked", "Warning"]
+    
+    logs = []
+    for _ in range(5):
+        logs.append({
+            "action": random.choice(actions),
+            "user": random.choice(users),
+            "status": random.choice(statuses),
+            "time": datetime.now().strftime("%H:%M:%S")
+        })
+    return jsonify(logs)
+
+@app.route('/api/report', methods=['POST'])
+def api_report_incident():
+    data = request.json
+    print(f"[{datetime.now()}] INCIDENT REPORTED: {data}")
+    return jsonify({"status": "received", "message": "Incident report logged successfully."})
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

@@ -13,7 +13,8 @@
         <header>
             <h1>🛡️ Global Security Operations Center</h1>
             <p>System Status: <span style="color: var(--accent-green); font-weight: bold;">ONLINE</span> | Protection:
-                <strong>Docker Containerized</strong></p>
+                <strong>Docker Containerized</strong>
+            </p>
         </header>
 
         <section class="status-panel">
@@ -34,10 +35,99 @@
             </div>
         </section>
 
-        <div style="text-align: center;">
+        <div style="text-align: center; margin-bottom: 2rem;">
             <a href="/details" class="btn">View Intelligent Protocols &rarr;</a>
+            <button id="reportBtn" class="btn btn-danger" style="margin-left: 1rem;">Report Incident ⚠️</button>
+        </div>
+
+        <div class="card full-width">
+            <h2>📡 Live Activity Feed</h2>
+            <div id="activity-log" class="activity-feed">
+                <p class="loading-text">Connecting to secure socket...</p>
+            </div>
+        </div>
+
+        <!-- Incident Report Modal -->
+        <div id="reportModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>📝 Report Security Incident</h2>
+                <textarea id="incidentDesc" placeholder="Describe the threat..." rows="4"
+                    style="width: 100%; margin-bottom: 1rem; background: #050a14; color: white; border: 1px solid #333; padding: 0.5rem;"></textarea>
+                <div style="text-align: right;">
+                    <button id="submitReport" class="btn">Submit Report</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Poll for Threat Level updates every 5 seconds
+        setInterval(async () => {
+            try {
+                const res = await fetch('/api/threat-level');
+                const data = await res.json();
+
+                const levelSpan = document.querySelector('.threat-level span:first-child');
+                const threatDiv = document.querySelector('.threat-level');
+                const msgP = document.querySelector('.card p[style="margin-top: 1rem;"]');
+
+                levelSpan.textContent = `LEVEL: ${data.level}`;
+                threatDiv.className = `threat-level ${data.class}`;
+                msgP.textContent = data.msg;
+            } catch (err) {
+                console.error("Secure link interrupted:", err);
+            }
+        }, 5000);
+
+        // Poll for Activity Log every 3 seconds
+        async function updateActivityLog() {
+            try {
+                const res = await fetch('/api/activity-log');
+                const logs = await res.json();
+
+                const feed = document.getElementById('activity-log');
+                feed.innerHTML = logs.map(log => `
+                    <div class="log-entry">
+                        <span class="log-time">[${log.time}]</span>
+                        <span class="log-user">${log.user}</span>
+                        <span class="log-action">${log.action}</span>
+                        <span class="log-status ${log.status.toLowerCase()}">${log.status}</span>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error("Log fetch failed:", err);
+            }
+        }
+        setInterval(updateActivityLog, 3000);
+        updateActivityLog(); // Initial call
+
+        // Modal Logic
+        const modal = document.getElementById("reportModal");
+        const btn = document.getElementById("reportBtn");
+        const span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = () => modal.style.display = "block";
+        span.onclick = () => modal.style.display = "none";
+        window.onclick = (event) => {
+            if (event.target == modal) modal.style.display = "none";
+        }
+
+        document.getElementById('submitReport').onclick = async () => {
+            const desc = document.getElementById('incidentDesc').value;
+            if (!desc) return alert("Description required!");
+
+            await fetch('/api/report', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ desc })
+            });
+
+            alert("Incident reported to Central Command.");
+            modal.style.display = "none";
+            document.getElementById('incidentDesc').value = "";
+        };
+    </script>
 
     <footer>
         <p>DevOps Assignment 2026 - Secure Build | <span style="color: var(--text-secondary);">v3.0.1 (Stable)</span>
