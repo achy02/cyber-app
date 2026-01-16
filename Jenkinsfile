@@ -24,7 +24,8 @@ pipeline {
                     // Note: Since we are running Jenkins in Docker, we need to ensure it can run docker commands 
                     // or we assume trivy is installed. For this assignment simulation:
                     
-                    sh "docker run --rm -v \$(pwd):/app -w /app ${TRIVY_IMAGE} config ./terraform"
+                    sh "ls -R" // DEBUG: List all files to see structure
+                    sh "docker run --rm -v \$(pwd):/app -w /app ${TRIVY_IMAGE} config ."
                 }
             }
             post {
