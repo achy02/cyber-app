@@ -16,13 +16,12 @@ resource "aws_security_group" "web_sg" {
   name        = "web_server_sg"
   description = "Security group for web server"
 
-  # INTENTIONAL VULNERABILITY (Required for Assignment)
-  # Requirement: SSH (port 22) open to 0.0.0.0/0
+  # REMEDIATION APPLIED: Restricted SSH to specific administrative IP
   ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # VULNERABILITY: Allowing SSH from anywhere
+    cidr_blocks = ["192.168.1.100/32"] # FIXED: Restricted to Admin VPN/IP only
   }
 
   # Allow HTTP traffic for the web app

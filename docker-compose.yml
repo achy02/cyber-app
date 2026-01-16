@@ -5,3 +5,22 @@ services:
     ports:
       - "8080:5000"
     container_name: cyber-app-container
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - "8081:8080" # Jenkins accessible on 8081
+      - "50000:50000"
+    container_name: jenkins-server
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=us-east-1
+
+volumes:
+  jenkins_home:

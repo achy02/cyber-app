@@ -1,0 +1,22 @@
+# Trivy Infrastructure Scan Report
+
+**Target:** ./terraform/main.tf
+**Scanner:** Trivy
+**Severity:** HIGH/CRITICAL
+
+## Vulnerabilities Found
+
+### [CRITICAL] AVD-AWS-0107: Security Group allows open SSH access
+**Description:** The security group `web_server_sg` allows ingress from `0.0.0.0/0` on port 22 (SSH).
+**Impact:** Attackers can attempt to brute-force SSH credentials from anywhere on the internet.
+**Resolution:** Restrict ingress to specific IP addresses (e.g., VPN or corporate CIDR).
+
+**Location:**
+File: `terraform/main.tf`
+Line: 25
+```hcl
+22:     from_port   = 22
+23:     to_port     = 22
+24:     protocol    = "tcp"
+25:     cidr_blocks = ["0.0.0.0/0"] # VULNERABILITY: Allowing SSH from anywhere
+```
