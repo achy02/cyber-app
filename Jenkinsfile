@@ -36,7 +36,7 @@ pipeline {
             steps {
                 echo "Running Terraform Plan (AWS Credentials Required)..."
                 // Requires AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to be set in Jenkins/Docker environment
-                sh 'terraform init && terraform plan'
+                sh 'cd terraform && terraform init && terraform plan'
                 echo "Terraform Plan generated."
             }
         }
