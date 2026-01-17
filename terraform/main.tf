@@ -8,6 +8,9 @@ terraform {
 }
 
 provider "aws" {
+  region = "us-east-1"
+}
+
 # 0. Key Pair Configuration
 resource "aws_key_pair" "user_key" {
   key_name   = "my-key-pair"
