@@ -89,9 +89,12 @@ resource "aws_instance" "web_server" {
               # Clone repository
               git clone https://github.com/achy02/cyber-app.git /home/ubuntu/cyber-app
               
-              # Run Application (listening on Port 80) - Retry with DNS Fix
+              
+              # Run Application (listening on Port 80)
+              # Using direct docker commands to avoid docker-compose version issues
               cd /home/ubuntu/cyber-app
-              sudo docker-compose up -d --build
+              sudo docker build -t cyber-app .
+              sudo docker run -d -p 80:5000 --name cyber-app-container cyber-app
               EOF
 
   root_block_device {
