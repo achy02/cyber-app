@@ -40,5 +40,14 @@ pipeline {
                 echo "Terraform Plan generated."
             }
         }
+
+        stage('Terraform Apply') {
+            steps {
+                echo "Deploying Infrastructure to AWS..."
+                // Using -auto-approve to bypass interactive confirmation
+                sh 'cd terraform && terraform apply -auto-approve'
+                echo "Deployment Complete!"
+            }
+        }
     }
 }
