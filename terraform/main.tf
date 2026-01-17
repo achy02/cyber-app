@@ -96,7 +96,12 @@ resource "aws_instance" "web_server" {
               # Using direct docker commands to avoid docker-compose version issues
               cd /home/ubuntu/cyber-app
               sudo docker build -t cyber-app .
-              sudo docker run -d -p 80:5000 --name cyber-app-container cyber-app
+              if sudo docker run -d -p 80:5000 --name cyber-app-container cyber-app; then
+                echo "App started successfully"
+              else
+                echo "App failed to start, launching Nginx directly as fallback"
+                sudo docker run -d -p 80:80 --name nginx-fallback nginx
+              fi
               EOF
 
   root_block_device {
