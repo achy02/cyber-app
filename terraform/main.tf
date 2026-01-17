@@ -60,6 +60,24 @@ resource "aws_instance" "web_server" {
   ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS (HVM) in us-east-1
   instance_type = "t3.micro"              # Eligible for Free Tier (and supports encryption)
 
+  user_data = <<-EOF
+              #!/bin/bash
+              # Update and install dependencies
+              sudo apt-get update -y
+              sudo apt-get install -y docker.io docker-compose git
+              
+              # Start Docker
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              
+              # Clone repository
+              git clone https://github.com/achy02/cyber-app.git /home/ubuntu/cyber-app
+              
+              # Run Application
+              cd /home/ubuntu/cyber-app
+              sudo docker-compose up -d --build
+              EOF
+
   root_block_device {
     encrypted = true
   }
