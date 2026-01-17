@@ -72,3 +72,8 @@ resource "aws_instance" "web_server" {
     Name = "DevOps-Assignment-Instance"
   }
 }
+
+output "instance_public_ip" {
+  description = "Public IP of the EC2 instance"
+  value       = aws_instance.web_server.public_ip
+}
