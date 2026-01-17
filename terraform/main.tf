@@ -13,7 +13,7 @@ provider "aws" {
 
 # 0. Key Pair Configuration
 resource "aws_key_pair" "user_key" {
-  key_name   = "my-key-pair"
+  key_name   = "devops-project-key-v1"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2p3A4sfG3mhj5l8ozdscG7TB6Bk5b/kZ8EnnrVF3ULa0XsOFUGFTzYgLmPEM8uY8avkJ3Id8kgZoO60WsVG7XKPmZW7DJM+5vVeyDhBnrhhPRmoZquAyW2j1aKKfh5iUHgWm2awt3U9XCcDSjqCUga/QcvVNzN2U5DHsO/L6KqXZJRPLXkPpZajnFONC8QeN3dTSXxMz4DFvIDDeb9TC9bIMV95nzE5F8y3BPnou+jfzy4N2z1W3WEAeVBdNXQrV/x/WuiSC8QrUvurafJ3cLC//YnYGqcq+/pjNnqOj8oiHSxXthdIjIu29Y9yZELzua/gYQ3oSao5f0WnEnMr6/"
 }
 
