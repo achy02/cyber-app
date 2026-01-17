@@ -73,7 +73,7 @@ resource "aws_instance" "web_server" {
               # Clone repository
               git clone https://github.com/achy02/cyber-app.git /home/ubuntu/cyber-app
               
-              # Run Application
+              # Run Application (listening on Port 80)
               cd /home/ubuntu/cyber-app
               sudo docker-compose up -d --build
               EOF

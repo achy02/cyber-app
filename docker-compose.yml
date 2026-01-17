@@ -3,7 +3,7 @@ services:
   web-app:
     build: .
     ports:
-      - "8080:5000"
+      - "80:5000"
     container_name: cyber-app-container
 
   jenkins:
