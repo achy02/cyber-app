@@ -75,6 +75,8 @@ resource "aws_security_group" "web_sg" {
 resource "aws_instance" "web_server" {
   ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS (HVM) in us-east-1
   instance_type = "t3.micro"              # Eligible for Free Tier (and supports encryption)
+  user_data_replace_on_change = true      # Force replacement when user_data changes
+
 
   user_data = <<-EOF
               #!/bin/bash
