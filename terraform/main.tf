@@ -8,8 +8,12 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"  # You can change this to your preferred region
+# 0. Key Pair Configuration
+resource "aws_key_pair" "user_key" {
+  key_name   = "my-key-pair"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2p3A4sfG3mhj5l8ozdscG7TB6Bk5b/kZ8EnnrVF3ULa0XsOFUGFTzYgLmPEM8uY8avkJ3Id8kgZoO60WsVG7XKPmZW7DJM+5vVeyDhBnrhhPRmoZquAyW2j1aKKfh5iUHgWm2awt3U9XCcDSjqCUga/QcvVNzN2U5DHsO/L6KqXZJRPLXkPpZajnFONC8QeN3dTSXxMz4DFvIDDeb9TC9bIMV95nzE5F8y3BPnou+jfzy4N2z1W3WEAeVBdNXQrV/x/WuiSC8QrUvurafJ3cLC//YnYGqcq+/pjNnqOj8oiHSxXthdIjIu29Y9yZELzua/gYQ3oSao5f0WnEnMr6/"
 }
+
 
 # 1. Networking & Security Configuration
 resource "aws_security_group" "web_sg" {
@@ -60,7 +64,7 @@ resource "aws_instance" "web_server" {
 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
-  key_name = "my-key-pair" # Placeholder: You will need a key pair in AWS to login
+  key_name = aws_key_pair.user_key.key_name
 
   tags = {
     Name = "DevOps-Assignment-Instance"
