@@ -53,6 +53,22 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow HTTPS outbound"
   }
+
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow DNS queries (UDP)"
+  }
+
+  egress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow DNS queries (TCP)"
+  }
 }
 
 # 2. Virtual Machine / Compute Instance
@@ -73,7 +89,7 @@ resource "aws_instance" "web_server" {
               # Clone repository
               git clone https://github.com/achy02/cyber-app.git /home/ubuntu/cyber-app
               
-              # Run Application (listening on Port 80)
+              # Run Application (listening on Port 80) - Retry with DNS Fix
               cd /home/ubuntu/cyber-app
               sudo docker-compose up -d --build
               EOF
